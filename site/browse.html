@@ -35,7 +35,12 @@
       <div class="filters">
         <label>Search titles<input type="search" id="search" placeholder="e.g. senior"></label>
         <label>Employer<select id="employer"><option value="">All employers</option></select></label>
-        <label>Location<input type="text" id="location" list="locations" placeholder="e.g. New York"></label>
+        <label>Location
+          <select id="location">
+            <option value="mine">My five areas</option>
+            <option value="">All locations</option>
+          </select>
+        </label>
         <label>Days open
           <select id="age">
             <option value="">Any</option>
@@ -53,7 +58,8 @@
           </select>
         </label>
       </div>
-      <datalist id="locations"></datalist>
+      <p class="hint">My five areas are Northwest Arkansas and the Kansas City, Chicago, Dallas–Fort Worth, and New York
+        City metros, judged from the location each employer lists. Choose “All locations” to see everything.</p>
       <p class="hint">Days open counts from the day the tool first saw a posting. Postings already open when watching
         began show “at least”, and the “or less” choices leave them out because their real age is unknown.</p>
       <button type="button" class="button" id="reset">Clear filters</button>
@@ -66,6 +72,7 @@
     </section>
   </main>
   <script src="common.js"></script>
+  <script src="areas.js"></script>
   <script src="browse.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 const CACHE = "job-watcher-v1";
 const FILES = [
   "./", "index.html", "browse.html", "market.html", "style.css", "common.js", "today.js",
-  "browse.js", "charts.js", "market.js", "manifest.webmanifest",
+  "areas.js", "browse.js", "charts.js", "market.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "data/status.json", "data/history.csv",
 ];
 

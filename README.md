@@ -136,6 +136,13 @@ Columns a board does not provide are empty:
 | Browse (`browse.html`) | open postings with role switch, filters, title search, sort, apply links, and a shortlist saved in the browser |
 | Market (`market.html`) | six findings computed in the browser from the history file |
 
+The Browse location filter starts on five areas: Northwest Arkansas and the
+Kansas City, Chicago, Dallas–Fort Worth, and New York City metros. Each can be
+picked alone, and "All locations" shows every open posting. The rules are in
+[`site/areas.js`](site/areas.js). They read the one location kept for each
+posting, so a job that names an area only as a second location may be missed.
+The history file, Today page, Market page, and daily issue cover all locations.
+
 The site installs as an app. Online it loads the data from the network; offline it
 opens with the last data it loaded.
 
@@ -168,6 +175,7 @@ opens with the last data it loaded.
 | `tests/test_issue.py` | tests the daily issue |
 | `site/index.html`, `site/today.js` | Today page |
 | `site/browse.html`, `site/browse.js` | Browse page |
+| `site/areas.js` | the location areas for the Browse filter |
 | `site/market.html`, `site/market.js` | Market page |
 | `site/charts.js` | draws the charts |
 | `site/common.js` | loads the data and builds shared elements |

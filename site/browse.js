@@ -29,10 +29,9 @@
   for (const name of [...new Set(open.map((r) => r.employer))].sort((a, b) => a.localeCompare(b))) {
     $("employer").append(el("option", { value: name, text: name }));
   }
-  const places = new Map();
-  for (const r of open) if (r.location) places.set(r.location, (places.get(r.location) ?? 0) + 1);
-  for (const [place] of [...places].sort((a, b) => b[1] - a[1]).slice(0, 500)) {
-    $("locations").append(el("option", { value: place }));
+  // Each area goes between "My five areas" and "All locations".
+  for (const area of Areas.list) {
+    $("location").lastElementChild.before(el("option", { value: area.id, text: area.name }));
   }
 
   function starButton(row) {
@@ -75,7 +74,8 @@
     const saved = $("shortlist").checked;
     const words = $("search").value.trim().toLowerCase();
     const employer = $("employer").value;
-    const place = $("location").value.trim().toLowerCase();
+    // Saved postings stay visible wherever they are, unless one area is picked.
+    const place = saved && $("location").value === "mine" ? "" : $("location").value;
     const [kind, limit] = $("age").value.split(":");
     const direction = $("sort").value === "newest" ? -1 : 1;
     // The shortlist shows every saved posting, including ones since removed.
@@ -85,7 +85,7 @@
       (saved || scope === "all" || r.in_role === "true") &&
       (!words || r.title.toLowerCase().includes(words)) &&
       (!employer || r.employer === employer) &&
-      (!place || r.location.toLowerCase().includes(place)) &&
+      Areas.matches(r.location, place) &&
       (kind !== "max" || (r.first_run === "false" && r.age <= Number(limit))) &&
       (kind !== "min" || r.age >= Number(limit)),
     ).sort((a, b) =>
@@ -112,10 +112,11 @@
 
   $("scope-role").addEventListener("click", () => setScope("role"));
   $("scope-all").addEventListener("click", () => setScope("all"));
-  for (const id of ["search", "location"]) $(id).addEventListener("input", apply);
-  for (const id of ["employer", "age", "sort", "shortlist"]) $(id).addEventListener("change", apply);
+  $("search").addEventListener("input", apply);
+  for (const id of ["location", "employer", "age", "sort", "shortlist"]) $(id).addEventListener("change", apply);
   $("reset").addEventListener("click", () => {
-    for (const id of ["search", "location", "employer", "age"]) $(id).value = "";
+    for (const id of ["search", "employer", "age"]) $(id).value = "";
+    $("location").value = "mine";
     $("sort").value = "newest";
     $("shortlist").checked = false;
     setScope("role");
