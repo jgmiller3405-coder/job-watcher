@@ -1,0 +1,120 @@
+{
+  "run_time": "2026-11-25T20:55:08Z",
+  "first_run_date": "2026-11-25",
+  "days_with_success": 1,
+  "open": 3607,
+  "new_today": 0,
+  "removed_today": 0,
+  "sources": [
+    {
+      "name": "blackrock",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "fidelity",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "mastercard",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "morganstanley",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "nasdaq",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "pnc",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "spglobal",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "statestreet",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "travelers",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "troweprice",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "truist",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "vanguard",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "affirm",
+      "ok": true,
+      "count": 215
+    },
+    {
+      "name": "coinbase",
+      "ok": true,
+      "count": 247
+    },
+    {
+      "name": "point72",
+      "ok": true,
+      "count": 200
+    },
+    {
+      "name": "robinhood",
+      "ok": true,
+      "count": 161
+    },
+    {
+      "name": "stripe",
+      "ok": true,
+      "count": 772
+    },
+    {
+      "name": "plaid",
+      "ok": true,
+      "count": 144
+    },
+    {
+      "name": "ramp",
+      "ok": true,
+      "count": 183
+    },
+    {
+      "name": "palantir",
+      "ok": true,
+      "count": 305
+    },
+    {
+      "name": "experian",
+      "ok": true,
+      "count": 417
+    },
+    {
+      "name": "jpmorgan",
+      "ok": true,
+      "count": 963
+    }
+  ]
+}
