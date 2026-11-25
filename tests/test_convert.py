@@ -18,48 +18,10 @@ def only(source_key, page):
 
 def test_every_system_in_the_watch_list_is_covered_here():
     assert {s.ats for s in SOURCES} == {
-        "workday", "greenhouse", "ashby", "lever", "smartrecruiters", "oracle",
+        "greenhouse", "ashby", "lever", "smartrecruiters", "oracle",
     }
     assert len({s.employer for s in SOURCES}) >= 15
     assert len(BY_KEY) == len(SOURCES)
-
-
-def test_workday():
-    page = {
-        "total": 2,
-        "jobPostings": [
-            {
-                "title": "Senior Financial Analyst",
-                "externalPath": "/job/Boston-MA/Senior-Financial-Analyst_R-1234-1",
-                "locationsText": "Boston, MA",
-                "postedOn": "Posted 30+ Days Ago",
-                "bulletFields": ["R-1234"],
-            },
-            {"bulletFields": ["R-9999"]},  # placeholder without a posting
-        ],
-    }
-    assert only("mastercard", page) == {
-        "posting_id": "mastercard:R-1234-1",
-        "source": "mastercard",
-        "source_id": "R-1234-1",
-        "employer": "Mastercard",
-        "title": "Senior Financial Analyst",
-        "location": "Boston, MA",
-        "department": "",
-        "posted_date": "",
-        "url": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers"
-        "/job/Boston-MA/Senior-Financial-Analyst_R-1234-1",
-    }
-
-
-def test_workday_id_survives_a_title_change_and_underscores():
-    def page(path, bullets):
-        return {"jobPostings": [{"title": "t", "externalPath": path, "bulletFields": bullets}]}
-
-    before = only("pnc", page("/job/A/Old-Title_JR_55", ["JR_55"]))
-    after = only("pnc", page("/job/B/New-Title_JR_55", ["JR_55"]))
-    assert before["source_id"] == after["source_id"] == "JR_55"
-    assert only("pnc", page("/job/A/Title_R77", []))["source_id"] == "R77"
 
 
 def test_greenhouse():

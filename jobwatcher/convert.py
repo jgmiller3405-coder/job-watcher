@@ -33,33 +33,6 @@ def _row(source_id, title, url, location="", department="", posted_date="") -> d
     }
 
 
-def workday_id(job: dict) -> str:
-    """The requisition ID at the end of the posting's path, e.g. ``R-12345-1``.
-
-    The rest of the path holds the title and location, which employers edit. The
-    requisition number (first bullet field) says where the stable part begins.
-    """
-    tail = job["externalPath"].rstrip("/").rsplit("/", 1)[-1]
-    for field in job.get("bulletFields") or []:
-        start = tail.rfind("_" + field)
-        if field and start >= 0:
-            return tail[start + 1 :]
-    return tail.rsplit("_", 1)[-1]
-
-
-def convert_workday(source: Source, page: dict):
-    for job in page["jobPostings"]:
-        if "externalPath" not in job:  # Workday occasionally returns an empty placeholder
-            continue
-        # "postedOn" is relative text ("Posted 30+ Days Ago"), so there is no posted date.
-        yield _row(
-            workday_id(job),
-            job.get("title"),
-            f"https://{source.host}/{source.board}{job['externalPath']}",
-            location=job.get("locationsText"),
-        )
-
-
 def convert_greenhouse(source: Source, page: dict):
     for job in page["jobs"]:
         departments = job.get("departments") or []
@@ -127,7 +100,6 @@ def convert_oracle(source: Source, page: dict):
 
 
 CONVERTERS = {
-    "workday": convert_workday,
     "greenhouse": convert_greenhouse,
     "ashby": convert_ashby,
     "lever": convert_lever,

@@ -16,7 +16,9 @@ does nothing if the day already has a successful run.
 1. Every source is called and its replies are saved, compressed, in
    `data/raw/<date>/<source>.json.gz`. A source that fails writes no file and
    does not stop the others. A board that can only be read partly counts as
-   failed, so missing pages are never mistaken for removed postings.
+   failed, so missing pages are never mistaken for removed postings. (Some boards
+   count a few postings they never list, so a steady shortfall under 0.5% is
+   accepted.)
 2. `data/history.csv` is rebuilt from all the raw files.
 3. `data/status.json` records the run, including each source's success or failure.
 4. An issue titled with the date lists new and removed postings, and earlier
@@ -67,35 +69,36 @@ The code is in [`jobwatcher/roles.py`](jobwatcher/roles.py).
 
 | Source key | Employer | Applicant tracking system | Board |
 |---|---|---|---|
-| `blackrock` | BlackRock | Workday | `BlackRock_Professional` |
-| `fidelity` | Fidelity Investments | Workday | `FidelityCareers` |
-| `mastercard` | Mastercard | Workday | `CorporateCareers` |
-| `morganstanley` | Morgan Stanley | Workday | `External` |
-| `nasdaq` | Nasdaq | Workday | `Global_External_Site` |
-| `pnc` | PNC | Workday | `External` |
-| `spglobal` | S&P Global | Workday | `SPGI_Careers` |
-| `statestreet` | State Street | Workday | `Global` |
-| `travelers` | Travelers | Workday | `External` |
-| `troweprice` | T. Rowe Price | Workday | `TRowePrice` |
-| `truist` | Truist | Workday | `Careers` |
-| `vanguard` | Vanguard | Workday | `vanguard_external` |
+| `americanexpress` | American Express | Oracle Recruiting | `CX_1` |
+| `bny` | BNY | Oracle Recruiting | `CX_1001` |
+| `citizens` | Citizens | Oracle Recruiting | `CX_1001` |
+| `cummins` | Cummins | Oracle Recruiting | `CX_1` |
+| `ford` | Ford | Oracle Recruiting | `CX_1` |
+| `goldmansachs` | Goldman Sachs | Oracle Recruiting | `LateralHiring` |
+| `honeywell` | Honeywell | Oracle Recruiting | `CX_1` |
+| `jpmorgan` | JPMorgan Chase | Oracle Recruiting | `CX_1001` |
+| `texasinstruments` | Texas Instruments | Oracle Recruiting | `CX` |
 | `affirm` | Affirm | Greenhouse | `affirm` |
 | `coinbase` | Coinbase | Greenhouse | `coinbase` |
 | `point72` | Point72 | Greenhouse | `point72` |
 | `robinhood` | Robinhood | Greenhouse | `robinhood` |
+| `sofi` | SoFi | Greenhouse | `sofi` |
 | `stripe` | Stripe | Greenhouse | `stripe` |
 | `plaid` | Plaid | Ashby | `plaid` |
 | `ramp` | Ramp | Ashby | `ramp` |
 | `palantir` | Palantir | Lever | `palantir` |
+| `abbvie` | AbbVie | SmartRecruiters | `AbbVie` |
 | `experian` | Experian | SmartRecruiters | `Experian` |
-| `jpmorgan` | JPMorgan Chase | Oracle Recruiting | `CX_1001` |
+| `nbcuniversal` | NBCUniversal | SmartRecruiters | `NBCUniversal3` |
+| `servicenow` | ServiceNow | SmartRecruiters | `ServiceNow` |
 
 All boards return JSON without a login.
 
 **Search term:** JPMorgan Chase lists more than 5,000 postings, so it is requested
-with the search term **`analyst`**. Every other board is read in full. A Workday
-board that reaches 2,000 postings (the most Workday will count) is reported as
-failed until a search term is added for it.
+with the search term **`analyst`**. Every other board is read in full.
+
+Workday boards are not used: they were answering requests from GitHub Actions
+with HTTP 429 block pages.
 
 ## Data
 
@@ -118,9 +121,6 @@ One row per posting, sorted by `posting_id`.
 
 Columns a board does not provide are empty:
 
-- **Workday** has no department, and gives only relative posting dates ("Posted
-  30+ Days Ago"), so `posted_date` is empty. Postings with several locations show
-  a count such as "3 Locations".
 - **Oracle** uses the job family as the department when no department is given.
 
 ### `data/status.json`

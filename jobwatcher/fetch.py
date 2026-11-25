@@ -13,27 +13,11 @@ from .convert import convert
 from .http import FetchError, request_json
 from .sources import Source
 
-WORKDAY_PAGE = 20  # the most Workday allows
-WORKDAY_CAP = 2000  # Workday stops counting here, so a larger board cannot be read in full
 ORACLE_PAGE = 200
 SMARTRECRUITERS_PAGE = 100
 PASSES = 5
 TOLERANCE = 0.005  # share of a paged board that may be missed because it changed mid-download
 PAUSE = 0.15  # seconds between pages, to be polite
-
-
-def unlisted(source: Source, pages: list) -> int:
-    """Postings Workday counts in its total but returns as an empty placeholder."""
-    if source.ats != "workday":
-        return 0
-    return len(
-        {
-            str(job.get("bulletFields"))
-            for page in pages
-            for job in page["jobPostings"]
-            if "externalPath" not in job
-        }
-    )
 
 
 def _paged(source: Source, get_page: Callable[[int], tuple[dict, int, int]]) -> list:
@@ -44,38 +28,26 @@ def _paged(source: Source, get_page: Callable[[int], tuple[dict, int, int]]) -> 
     """
     pages: list = []
     total = 0
-    found = 0
+    found = -1
     for _ in range(PASSES):
+        previous = found
         offset = 0
         while True:
             reply, size, reply_total = get_page(offset)
             if offset == 0:
-                total = reply_total  # some boards report the total on the first page only
+                total = reply_total
             pages.append(reply)
             offset += size
             if size == 0 or offset >= total:
                 break
             time.sleep(PAUSE)
-        found = len(convert(source, pages)) + unlisted(source, pages)
-        if found >= total:
+        found = len(convert(source, pages))
+        # Some boards count a few postings they never list, so stop once a pass adds none.
+        if found >= total or (found == previous and found >= total * (1 - TOLERANCE)):
             return pages
     if found >= total * (1 - TOLERANCE):
         return pages
     raise FetchError(f"incomplete download: {found} of {total} postings")
-
-
-def fetch_workday(source: Source, get=request_json) -> list:
-    url = f"https://{source.host}/wday/cxs/{source.tenant}/{source.board}/jobs"
-
-    def get_page(offset: int):
-        body = {"appliedFacets": {}, "limit": WORKDAY_PAGE, "offset": offset, "searchText": source.search}
-        reply = get(url, body=body)
-        total = reply.get("total") or 0
-        if total >= WORKDAY_CAP:
-            raise FetchError(f"board has {WORKDAY_CAP} or more postings; add a search term")
-        return reply, len(reply["jobPostings"]), total
-
-    return _paged(source, get_page)
 
 
 def fetch_oracle(source: Source, get=request_json) -> list:
@@ -122,7 +94,6 @@ def fetch_lever(source: Source, get=request_json) -> list:
 
 
 FETCHERS = {
-    "workday": fetch_workday,
     "oracle": fetch_oracle,
     "smartrecruiters": fetch_smartrecruiters,
     "greenhouse": fetch_greenhouse,

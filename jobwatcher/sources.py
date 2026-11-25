@@ -11,48 +11,39 @@ from dataclasses import dataclass
 class Source:
     key: str
     employer: str
-    ats: str  # workday, greenhouse, ashby, lever, smartrecruiters, oracle
-    board: str  # Workday site, board token, company ID, or Oracle site number
-    host: str = ""  # Workday and Oracle only
-    tenant: str = ""  # Workday only
+    ats: str  # greenhouse, ashby, lever, smartrecruiters, or oracle
+    board: str  # board token, company ID, or Oracle site number
+    host: str = ""  # Oracle only
     search: str = ""  # search term for boards with more than 5,000 postings
 
 
-def _workday(key: str, employer: str, tenant: str, pod: int, site: str) -> Source:
-    host = f"{tenant}.wd{pod}.myworkdayjobs.com"
-    return Source(key, employer, "workday", site, host=host, tenant=tenant)
+def _oracle(key: str, employer: str, pod: str, site: str, search: str = "") -> Source:
+    return Source(key, employer, "oracle", site, host=f"{pod}.oraclecloud.com", search=search)
 
 
 SOURCES: tuple[Source, ...] = (
-    _workday("blackrock", "BlackRock", "blackrock", 1, "BlackRock_Professional"),
-    _workday("fidelity", "Fidelity Investments", "fmr", 1, "FidelityCareers"),
-    _workday("mastercard", "Mastercard", "mastercard", 1, "CorporateCareers"),
-    _workday("morganstanley", "Morgan Stanley", "ms", 5, "External"),
-    _workday("nasdaq", "Nasdaq", "nasdaq", 1, "Global_External_Site"),
-    _workday("pnc", "PNC", "pnc", 5, "External"),
-    _workday("spglobal", "S&P Global", "spgi", 5, "SPGI_Careers"),
-    _workday("statestreet", "State Street", "statestreet", 1, "Global"),
-    _workday("travelers", "Travelers", "travelers", 5, "External"),
-    _workday("troweprice", "T. Rowe Price", "troweprice", 5, "TRowePrice"),
-    _workday("truist", "Truist", "truist", 1, "Careers"),
-    _workday("vanguard", "Vanguard", "vanguard", 5, "vanguard_external"),
+    _oracle("americanexpress", "American Express", "egug.fa.us2", "CX_1"),
+    _oracle("bny", "BNY", "eofe.fa.us2", "CX_1001"),
+    _oracle("citizens", "Citizens", "hcgn.fa.us2", "CX_1001"),
+    _oracle("cummins", "Cummins", "fa-espx-saasfaprod1.fa.ocs", "CX_1"),
+    _oracle("ford", "Ford", "efds.fa.em5", "CX_1"),
+    _oracle("goldmansachs", "Goldman Sachs", "hdpc.fa.us2", "LateralHiring"),
+    _oracle("honeywell", "Honeywell", "ibqbjb.fa.ocs", "CX_1"),
+    _oracle("jpmorgan", "JPMorgan Chase", "jpmc.fa", "CX_1001", search="analyst"),
+    _oracle("texasinstruments", "Texas Instruments", "edbz.fa.us2", "CX"),
     Source("affirm", "Affirm", "greenhouse", "affirm"),
     Source("coinbase", "Coinbase", "greenhouse", "coinbase"),
     Source("point72", "Point72", "greenhouse", "point72"),
     Source("robinhood", "Robinhood", "greenhouse", "robinhood"),
+    Source("sofi", "SoFi", "greenhouse", "sofi"),
     Source("stripe", "Stripe", "greenhouse", "stripe"),
     Source("plaid", "Plaid", "ashby", "plaid"),
     Source("ramp", "Ramp", "ashby", "ramp"),
     Source("palantir", "Palantir", "lever", "palantir"),
+    Source("abbvie", "AbbVie", "smartrecruiters", "AbbVie"),
     Source("experian", "Experian", "smartrecruiters", "Experian"),
-    Source(
-        "jpmorgan",
-        "JPMorgan Chase",
-        "oracle",
-        "CX_1001",
-        host="jpmc.fa.oraclecloud.com",
-        search="analyst",
-    ),
+    Source("nbcuniversal", "NBCUniversal", "smartrecruiters", "NBCUniversal3"),
+    Source("servicenow", "ServiceNow", "smartrecruiters", "ServiceNow"),
 )
 
 BY_KEY: dict[str, Source] = {source.key: source for source in SOURCES}
