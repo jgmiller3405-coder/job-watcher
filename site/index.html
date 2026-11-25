@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today · Job Watcher</title>
+  <meta name="description" content="A daily watch on financial analyst openings.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#1b64be">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav" aria-label="Main">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Job Watcher</a>
+      <a href="index.html" aria-current="page">Today</a>
+      <a href="browse.html">Browse</a>
+      <a href="market.html">Market</a>
+    </div>
+  </nav>
+  <main>
+    <h1>Today</h1>
+    <p class="sub" id="run-time">Loading…</p>
+
+    <div class="tiles">
+      <div class="tile"><div class="label">Days with a successful run</div><div class="value" id="days">–</div></div>
+      <div class="tile"><div class="label">Open postings</div><div class="value" id="open">–</div></div>
+      <div class="tile"><div class="label">New today</div><div class="value" id="new-count">–</div></div>
+      <div class="tile"><div class="label">Removed today</div><div class="value" id="removed-count">–</div></div>
+    </div>
+
+    <section class="card">
+      <h2>New postings in the latest run</h2>
+      <p class="hint" id="new-note"></p>
+      <ul class="postings" id="new-list"></ul>
+      <button class="button" id="new-more" hidden></button>
+    </section>
+
+    <section class="card">
+      <h2>Removed postings in the latest run</h2>
+      <p class="hint" id="removed-note"></p>
+      <ul class="postings" id="removed-list"></ul>
+      <button class="button" id="removed-more" hidden></button>
+    </section>
+
+    <section class="card">
+      <h2>Sources</h2>
+      <p class="hint" id="source-note"></p>
+      <ul class="sources" id="sources"></ul>
+    </section>
+  </main>
+  <script src="common.js"></script>
+  <script src="today.js"></script>
+</body>
+</html>

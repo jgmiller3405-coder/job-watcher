@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Market · Job Watcher</title>
+  <meta name="description" content="What the posting history shows so far.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#1b64be">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav" aria-label="Main">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Job Watcher</a>
+      <a href="index.html">Today</a>
+      <a href="browse.html">Browse</a>
+      <a href="market.html" aria-current="page">Market</a>
+    </div>
+  </nav>
+  <main>
+    <h1>Market report</h1>
+    <p class="sub" id="coverage">Loading…</p>
+
+    <section class="card" id="s-new"><h2></h2><p></p><div class="chart"></div></section>
+    <section class="card" id="s-removed"><h2></h2><p></p><div class="chart"></div></section>
+    <section class="card" id="s-employers"><h2></h2><p></p><div class="chart"></div></section>
+    <section class="card" id="s-days"><h2></h2><p></p><div class="chart"></div></section>
+    <section class="card" id="s-week"><h2></h2><p></p><div class="chart"></div></section>
+    <section class="card" id="s-places"><h2></h2><p></p><div class="chart"></div></section>
+  </main>
+  <script src="common.js"></script>
+  <script src="charts.js"></script>
+  <script src="market.js"></script>
+</body>
+</html>

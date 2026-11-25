@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Browse · Job Watcher</title>
+  <meta name="description" content="Search and shortlist open postings.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#1b64be">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav" aria-label="Main">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Job Watcher</a>
+      <a href="index.html">Today</a>
+      <a href="browse.html" aria-current="page">Browse</a>
+      <a href="market.html">Market</a>
+    </div>
+  </nav>
+  <main>
+    <h1>Browse open postings</h1>
+    <p class="sub">Filter, search, and star the ones you want to keep.</p>
+
+    <section class="card">
+      <div class="row">
+        <div class="switch" role="group" aria-label="Which postings">
+          <button type="button" id="scope-role" aria-pressed="true">Financial analyst</button>
+          <button type="button" id="scope-all" aria-pressed="false">All postings</button>
+        </div>
+        <label><input type="checkbox" id="shortlist"> Shortlist only (<span id="star-count">0</span>)</label>
+      </div>
+      <div class="filters">
+        <label>Search titles<input type="search" id="search" placeholder="e.g. senior"></label>
+        <label>Employer<select id="employer"><option value="">All employers</option></select></label>
+        <label>Location<input type="text" id="location" list="locations" placeholder="e.g. New York"></label>
+        <label>Days open
+          <select id="age">
+            <option value="">Any</option>
+            <option value="max:1">1 day or less</option>
+            <option value="max:7">7 days or less</option>
+            <option value="max:30">30 days or less</option>
+            <option value="min:7">7 days or more</option>
+            <option value="min:30">30 days or more</option>
+          </select>
+        </label>
+        <label>Sort by first seen
+          <select id="sort">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </label>
+      </div>
+      <datalist id="locations"></datalist>
+      <p class="hint">Days open counts from the day the tool first saw a posting. Postings already open when watching
+        began show “at least”, and the “or less” choices leave them out because their real age is unknown.</p>
+      <button type="button" class="button" id="reset">Clear filters</button>
+    </section>
+
+    <section class="card">
+      <p class="hint" id="result-count" aria-live="polite">Loading…</p>
+      <ul class="postings" id="results"></ul>
+      <button type="button" class="button" id="more" hidden></button>
+    </section>
+  </main>
+  <script src="common.js"></script>
+  <script src="browse.js"></script>
+</body>
+</html>
