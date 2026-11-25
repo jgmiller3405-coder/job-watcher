@@ -1,70 +1,55 @@
 {
-  "run_time": "2026-11-25T20:55:08Z",
+  "run_time": "2026-11-25T22:35:12Z",
   "first_run_date": "2026-11-25",
   "days_with_success": 1,
-  "open": 3607,
+  "open": 14599,
   "new_today": 0,
   "removed_today": 0,
   "sources": [
     {
-      "name": "blackrock",
-      "ok": false,
-      "count": 0
+      "name": "americanexpress",
+      "ok": true,
+      "count": 407
     },
     {
-      "name": "fidelity",
-      "ok": false,
-      "count": 0
+      "name": "bny",
+      "ok": true,
+      "count": 1231
     },
     {
-      "name": "mastercard",
-      "ok": false,
-      "count": 0
+      "name": "citizens",
+      "ok": true,
+      "count": 474
     },
     {
-      "name": "morganstanley",
-      "ok": false,
-      "count": 0
+      "name": "cummins",
+      "ok": true,
+      "count": 1178
     },
     {
-      "name": "nasdaq",
-      "ok": false,
-      "count": 0
+      "name": "ford",
+      "ok": true,
+      "count": 893
     },
     {
-      "name": "pnc",
-      "ok": false,
-      "count": 0
+      "name": "goldmansachs",
+      "ok": true,
+      "count": 953
     },
     {
-      "name": "spglobal",
-      "ok": false,
-      "count": 0
+      "name": "honeywell",
+      "ok": true,
+      "count": 1339
     },
     {
-      "name": "statestreet",
-      "ok": false,
-      "count": 0
+      "name": "jpmorgan",
+      "ok": true,
+      "count": 964
     },
     {
-      "name": "travelers",
-      "ok": false,
-      "count": 0
-    },
-    {
-      "name": "troweprice",
-      "ok": false,
-      "count": 0
-    },
-    {
-      "name": "truist",
-      "ok": false,
-      "count": 0
-    },
-    {
-      "name": "vanguard",
-      "ok": false,
-      "count": 0
+      "name": "texasinstruments",
+      "ok": true,
+      "count": 916
     },
     {
       "name": "affirm",
@@ -74,7 +59,7 @@
     {
       "name": "coinbase",
       "ok": true,
-      "count": 247
+      "count": 255
     },
     {
       "name": "point72",
@@ -85,6 +70,11 @@
       "name": "robinhood",
       "ok": true,
       "count": 161
+    },
+    {
+      "name": "sofi",
+      "ok": true,
+      "count": 57
     },
     {
       "name": "stripe",
@@ -107,14 +97,24 @@
       "count": 305
     },
     {
-      "name": "experian",
+      "name": "abbvie",
       "ok": true,
-      "count": 417
+      "count": 2014
     },
     {
-      "name": "jpmorgan",
+      "name": "experian",
       "ok": true,
-      "count": 963
+      "count": 416
+    },
+    {
+      "name": "nbcuniversal",
+      "ok": true,
+      "count": 550
+    },
+    {
+      "name": "servicenow",
+      "ok": true,
+      "count": 972
     }
   ]
 }
