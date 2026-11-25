@@ -1,0 +1,4 @@
+# Keep line endings identical on every machine, so a rebuilt history file matches byte for byte.
+* text=auto eol=lf
+*.gz binary
+*.png binary
