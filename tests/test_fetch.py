@@ -55,6 +55,59 @@ def test_a_few_postings_that_are_never_listed_are_accepted_after_two_passes():
     assert len(pages) == 22  # two passes of ten pages and an empty reply each, not five
 
 
+def test_workday_reads_every_page_and_counts_placeholders():
+    jobs = [{"title": "t", "externalPath": f"/job/x/t_R{n}", "bulletFields": [f"R{n}"]} for n in range(44)]
+    jobs.append({"bulletFields": ["R99"]})
+
+    def get(url, body=None):
+        offset = body["offset"]
+        total = len(jobs) if offset == 0 else 0  # Workday reports it once
+        return {"total": total, "jobPostings": jobs[offset : offset + body["limit"]]}
+
+    pages, count = fetch.fetch_source(BY_KEY["jbhunt"], get=get)
+    assert (len(pages), count) == (3, 44)
+
+
+def test_workday_boards_too_large_to_read_fail():
+    with pytest.raises(FetchError, match="search term"):
+        fetch.fetch_source(BY_KEY["jbhunt"], get=lambda url, body: {"total": 2000, "jobPostings": []})
+
+
+def test_icims_pages_by_number_and_sends_the_search_term():
+    urls = []
+
+    def get(url):
+        urls.append(url)
+        page = int(url.split("page=")[1].split("&")[0])
+        ids = range((page - 1) * 100, min(page * 100, 130))
+        return {"totalCount": 130, "jobs": [{"data": {"slug": str(i), "title": "Analyst"}} for i in ids]}
+
+    _, count = fetch.fetch_source(BY_KEY["ulta"], get=get)
+    assert count == 130
+    assert len(urls) == 2
+    assert all("keywords=analyst" in url for url in urls)
+
+
+def test_phenom_pages():
+    def get(url, body):
+        ids = range(body["from"], min(body["from"] + body["size"], 150))
+        jobs = [{"jobSeqNo": str(i), "title": "t"} for i in ids]
+        return {"refineSearch": {"totalHits": 150, "data": {"jobs": jobs}}}
+
+    _, count = fetch.fetch_source(BY_KEY["abbott"], get=get)
+    assert count == 150
+
+
+def test_ukg_pages():
+    def get(url, body):
+        skip = body["opportunitySearch"]["Skip"]
+        jobs = [{"Id": str(i), "Title": "t"} for i in range(skip, min(skip + 100, 120))]
+        return {"totalCount": 120, "opportunities": jobs}
+
+    _, count = fetch.fetch_source(BY_KEY["hallmark"], get=get)
+    assert count == 120
+
+
 def test_an_empty_board_fails():
     with pytest.raises(FetchError, match="no postings"):
         fetch.fetch_source(BY_KEY["stripe"], get=lambda url: {"jobs": []})

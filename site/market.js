@@ -75,8 +75,8 @@
       "s-employers",
       top ? `${top.label} has the most open postings: ${number(top.value)} of ${number(open.length)}` : "No postings are open",
       `As of the ${runDate} run, ${plural(open.length, "posting")} ${open.length === 1 ? "is" : "are"} open across ${plural(employers.length, "employer")}, ` +
-      `${number(openRole)} of them financial analyst roles. JPMorgan Chase is collected with the search term “analyst”, ` +
-      "so its bar covers only the postings that search returns.",
+      `${number(openRole)} of them financial analyst roles. JPMorgan Chase, H&R Block, and Ulta Beauty are collected with ` +
+      "the search term “analyst”, so their bars cover only the postings that search returns.",
     );
     Charts.bars(chart, employers, { label: "Open postings per employer" });
 

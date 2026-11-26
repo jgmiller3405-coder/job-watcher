@@ -15,9 +15,28 @@ from .sources import Source
 
 ORACLE_PAGE = 200
 SMARTRECRUITERS_PAGE = 100
+ICIMS_PAGE = 100
+PHENOM_PAGE = 100
+UKG_PAGE = 100
+WORKDAY_PAGE = 20  # the most Workday allows
+WORKDAY_CAP = 2000  # Workday stops counting here, so a larger board cannot be read in full
 PASSES = 5
 TOLERANCE = 0.005  # share of a paged board that may be missed because it changed mid-download
 PAUSE = 0.15  # seconds between pages, to be polite
+
+
+def unlisted(source: Source, pages: list) -> int:
+    """Postings Workday counts in its total but returns as an empty placeholder."""
+    if source.ats != "workday":
+        return 0
+    return len(
+        {
+            str(job.get("bulletFields"))
+            for page in pages
+            for job in page["jobPostings"]
+            if "externalPath" not in job
+        }
+    )
 
 
 def _paged(source: Source, get_page: Callable[[int], tuple[dict, int, int]]) -> list:
@@ -35,13 +54,13 @@ def _paged(source: Source, get_page: Callable[[int], tuple[dict, int, int]]) -> 
         while True:
             reply, size, reply_total = get_page(offset)
             if offset == 0:
-                total = reply_total
+                total = reply_total  # some boards report the total on the first page only
             pages.append(reply)
             offset += size
             if size == 0 or offset >= total:
                 break
             time.sleep(PAUSE)
-        found = len(convert(source, pages))
+        found = len(convert(source, pages)) + unlisted(source, pages)
         # Some boards count a few postings they never list, so stop once a pass adds none.
         if found >= total or (found == previous and found >= total * (1 - TOLERANCE)):
             return pages
@@ -81,6 +100,58 @@ def fetch_smartrecruiters(source: Source, get=request_json) -> list:
     return _paged(source, get_page)
 
 
+def fetch_workday(source: Source, get=request_json) -> list:
+    url = f"https://{source.host}/wday/cxs/{source.tenant}/{source.board}/jobs"
+
+    def get_page(offset: int):
+        body = {"appliedFacets": {}, "limit": WORKDAY_PAGE, "offset": offset, "searchText": source.search}
+        reply = get(url, body=body)
+        total = reply.get("total") or 0
+        if total >= WORKDAY_CAP:
+            raise FetchError(f"board has {WORKDAY_CAP} or more postings; add a search term")
+        return reply, len(reply["jobPostings"]), total
+
+    return _paged(source, get_page)
+
+
+def fetch_icims(source: Source, get=request_json) -> list:
+    """iCIMS career sites (formerly Jibe), which page by page number."""
+
+    def get_page(offset: int):
+        query = {"page": offset // ICIMS_PAGE + 1, "limit": ICIMS_PAGE, "internal": "false"}
+        if source.search:
+            query["keywords"] = source.search
+        reply = get(f"https://{source.host}/api/jobs?{urllib.parse.urlencode(query)}")
+        return reply, len(reply["jobs"]), reply["totalCount"]
+
+    return _paged(source, get_page)
+
+
+def fetch_phenom(source: Source, get=request_json) -> list:
+    def get_page(offset: int):
+        body = {
+            "lang": "en_us", "country": "us", "deviceType": "desktop", "pageName": "search-results",
+            "ddoKey": "refineSearch", "from": offset, "size": PHENOM_PAGE, "jobs": True, "counts": True,
+            "keywords": source.search, "global": True, "selected_fields": {}, "all_fields": [],
+        }
+        reply = get(f"https://{source.host}/widgets", body=body)
+        result = reply["refineSearch"]
+        return reply, len(result["data"]["jobs"]), result["totalHits"]
+
+    return _paged(source, get_page)
+
+
+def fetch_ukg(source: Source, get=request_json) -> list:
+    url = f"https://{source.host}/{source.board}/JobBoardView/LoadSearchResults"
+
+    def get_page(offset: int):
+        search = {"Top": UKG_PAGE, "Skip": offset, "QueryString": source.search, "OrderBy": [], "Filters": []}
+        reply = get(url, body={"opportunitySearch": search})
+        return reply, len(reply["opportunities"]), reply["totalCount"]
+
+    return _paged(source, get_page)
+
+
 def fetch_greenhouse(source: Source, get=request_json) -> list:
     return [get(f"https://boards-api.greenhouse.io/v1/boards/{source.board}/jobs?content=true")]
 
@@ -95,6 +166,10 @@ def fetch_lever(source: Source, get=request_json) -> list:
 
 FETCHERS = {
     "oracle": fetch_oracle,
+    "workday": fetch_workday,
+    "icims": fetch_icims,
+    "phenom": fetch_phenom,
+    "ukg": fetch_ukg,
     "smartrecruiters": fetch_smartrecruiters,
     "greenhouse": fetch_greenhouse,
     "ashby": fetch_ashby,

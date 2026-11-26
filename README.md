@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/jgmiller3405-coder/job-watcher/actions/workflows/tests.yml/badge.svg)](https://github.com/jgmiller3405-coder/job-watcher/actions/workflows/tests.yml)
 
-Once a day this tool reads the job boards of 22 employers, compares them with
+Once a day this tool reads the job boards of 49 employers, compares them with
 what it saw before, records which postings are new and which are gone, opens a
 GitHub Issue listing both, and publishes the results as a website.
 
@@ -67,38 +67,72 @@ The code is in [`jobwatcher/roles.py`](jobwatcher/roles.py).
 
 ## Sources
 
-| Source key | Employer | Applicant tracking system | Board |
-|---|---|---|---|
-| `americanexpress` | American Express | Oracle Recruiting | `CX_1` |
-| `bny` | BNY | Oracle Recruiting | `CX_1001` |
-| `citizens` | Citizens | Oracle Recruiting | `CX_1001` |
-| `cummins` | Cummins | Oracle Recruiting | `CX_1` |
-| `ford` | Ford | Oracle Recruiting | `CX_1` |
-| `goldmansachs` | Goldman Sachs | Oracle Recruiting | `LateralHiring` |
-| `honeywell` | Honeywell | Oracle Recruiting | `CX_1` |
-| `jpmorgan` | JPMorgan Chase | Oracle Recruiting | `CX_1001` |
-| `texasinstruments` | Texas Instruments | Oracle Recruiting | `CX` |
-| `affirm` | Affirm | Greenhouse | `affirm` |
-| `coinbase` | Coinbase | Greenhouse | `coinbase` |
-| `point72` | Point72 | Greenhouse | `point72` |
-| `robinhood` | Robinhood | Greenhouse | `robinhood` |
-| `sofi` | SoFi | Greenhouse | `sofi` |
-| `stripe` | Stripe | Greenhouse | `stripe` |
-| `plaid` | Plaid | Ashby | `plaid` |
-| `ramp` | Ramp | Ashby | `ramp` |
-| `palantir` | Palantir | Lever | `palantir` |
-| `abbvie` | AbbVie | SmartRecruiters | `AbbVie` |
-| `experian` | Experian | SmartRecruiters | `Experian` |
-| `nbcuniversal` | NBCUniversal | SmartRecruiters | `NBCUniversal3` |
-| `servicenow` | ServiceNow | SmartRecruiters | `ServiceNow` |
+The list covers major employers in five areas (Northwest Arkansas, Kansas City,
+Chicago, Dallas–Fort Worth, and New York) plus others hiring financial analysts.
+"Area" is why an employer is on the list; its board may list jobs anywhere.
 
-All boards return JSON without a login.
+| Source key | Employer | Applicant tracking system | Board | Area |
+|---|---|---|---|---|
+| `jbhunt` | J.B. Hunt | Workday | `Careers` | Northwest Arkansas |
+| `carmart` | America's Car-Mart | UKG Pro (UltiPro) | `AME1031ACM/JobBoard/9a085139-ceb8-4e6a-a651-272c1c59be0c` | Northwest Arkansas |
+| `garmin` | Garmin | iCIMS | `careers.garmin.com` | Kansas City |
+| `hrblock` | H&R Block | iCIMS | `careers.hrblock.com` | Kansas City |
+| `hallmark` | Hallmark | UKG Pro (UltiPro) | `HAL1009HLLI/JobBoard/1af38e50-bef2-48c7-8919-d646ae0bee65` | Kansas City |
+| `commercebank` | Commerce Bank | Phenom | `careers.commercebank.com` | Kansas City |
+| `oracle` | Oracle | Oracle Recruiting | `CX_45001` | Kansas City |
+| `abbott` | Abbott | Phenom | `www.jobs.abbott` | Chicago |
+| `abbvie` | AbbVie | SmartRecruiters | `AbbVie` | Chicago |
+| `conagra` | Conagra Brands | Phenom | `careers.conagrabrands.com` | Chicago |
+| `united` | United Airlines | Phenom | `careers.united.com` | Chicago |
+| `exelon` | Exelon | iCIMS | `jobs.exeloncorp.com` | Chicago |
+| `ulta` | Ulta Beauty | iCIMS | `careers.ulta.com` | Chicago |
+| `drw` | DRW | Greenhouse | `drweng` | Chicago |
+| `imc` | IMC Trading | Greenhouse | `imc` | Chicago |
+| `jumptrading` | Jump Trading | Greenhouse | `jumptrading` | Chicago |
+| `williamblair` | William Blair | Greenhouse | `williamblair` | Chicago |
+| `texasinstruments` | Texas Instruments | Oracle Recruiting | `CX` | Dallas–Fort Worth |
+| `tenet` | Tenet Healthcare | Oracle Recruiting | `CX_1001` | Dallas–Fort Worth |
+| `pepsico` | PepsiCo | iCIMS | `www.pepsicojobs.com` | Dallas–Fort Worth |
+| `southwest` | Southwest Airlines | Phenom | `careers.southwestair.com` | Dallas–Fort Worth |
+| `toyota` | Toyota North America | Phenom | `careers.toyota.com` | Dallas–Fort Worth |
+| `matchgroup` | Match Group | Lever | `matchgroup` | Dallas–Fort Worth |
+| `americanexpress` | American Express | Oracle Recruiting | `CX_1` | New York |
+| `bny` | BNY | Oracle Recruiting | `CX_1001` | New York |
+| `goldmansachs` | Goldman Sachs | Oracle Recruiting | `LateralHiring` | New York |
+| `jpmorgan` | JPMorgan Chase | Oracle Recruiting | `CX_1001` | New York |
+| `nbcuniversal` | NBCUniversal | SmartRecruiters | `NBCUniversal3` | New York |
+| `datadog` | Datadog | Greenhouse | `datadog` | New York |
+| `janestreet` | Jane Street | Greenhouse | `janestreet` | New York |
+| `mongodb` | MongoDB | Greenhouse | `mongodb` | New York |
+| `nytimes` | The New York Times | Greenhouse | `thenewyorktimes` | New York |
+| `oscar` | Oscar Health | Greenhouse | `oscar` | New York |
+| `spotify` | Spotify | Lever | `spotify` | New York |
+| `citizens` | Citizens | Oracle Recruiting | `CX_1001` | Other |
+| `cummins` | Cummins | Oracle Recruiting | `CX_1` | Other |
+| `ford` | Ford | Oracle Recruiting | `CX_1` | Other |
+| `honeywell` | Honeywell | Oracle Recruiting | `CX_1` | Other |
+| `affirm` | Affirm | Greenhouse | `affirm` | Other |
+| `coinbase` | Coinbase | Greenhouse | `coinbase` | Other |
+| `point72` | Point72 | Greenhouse | `point72` | Other |
+| `robinhood` | Robinhood | Greenhouse | `robinhood` | Other |
+| `sofi` | SoFi | Greenhouse | `sofi` | Other |
+| `stripe` | Stripe | Greenhouse | `stripe` | Other |
+| `plaid` | Plaid | Ashby | `plaid` | Other |
+| `ramp` | Ramp | Ashby | `ramp` | Other |
+| `palantir` | Palantir | Lever | `palantir` | Other |
+| `experian` | Experian | SmartRecruiters | `Experian` | Other |
+| `servicenow` | ServiceNow | SmartRecruiters | `ServiceNow` | Other |
 
-**Search term:** JPMorgan Chase lists more than 5,000 postings, so it is requested
-with the search term **`analyst`**. Every other board is read in full.
+All boards return JSON without a login. iCIMS and Phenom boards are read through
+the employer's own career site, which those systems run.
 
-Workday boards are not used: they were answering requests from GitHub Actions
-with HTTP 429 block pages.
+**Search term:** JPMorgan Chase, H&R Block, and Ulta Beauty list more than 5,000
+postings, so each is requested with the search term **`analyst`**. Every other
+board is read in full. A Workday board that reaches 2,000 postings (the most
+Workday will count) is reported as failed until a search term is added.
+
+**Left out:** Walmart and Tyson Foods use Workday boards that answered GitHub
+Actions with block pages, as did most other Workday employers tried.
 
 ## Data
 
@@ -121,6 +155,9 @@ One row per posting, sorted by `posting_id`.
 
 Columns a board does not provide are empty:
 
+- **Workday** has no department, and gives only relative posting dates ("Posted
+  30+ Days Ago"), so `posted_date` is empty. Postings with several locations show
+  a count such as "2 Locations".
 - **Oracle** uses the job family as the department when no department is given.
 
 ### `data/status.json`

@@ -33,6 +33,83 @@ def _row(source_id, title, url, location="", department="", posted_date="") -> d
     }
 
 
+def workday_id(job: dict) -> str:
+    """The requisition ID at the end of the posting's path, e.g. ``R-12345-1``.
+
+    The rest of the path holds the title and location, which employers edit. The
+    requisition number (first bullet field) says where the stable part begins.
+    """
+    tail = job["externalPath"].rstrip("/").rsplit("/", 1)[-1]
+    for field in job.get("bulletFields") or []:
+        start = tail.rfind("_" + field)
+        if field and start >= 0:
+            return tail[start + 1 :]
+    return tail.rsplit("_", 1)[-1]
+
+
+def convert_workday(source: Source, page: dict):
+    for job in page["jobPostings"]:
+        if "externalPath" not in job:  # Workday occasionally returns an empty placeholder
+            continue
+        # "postedOn" is relative text ("Posted 30+ Days Ago"), so there is no posted date.
+        yield _row(
+            workday_id(job),
+            job.get("title"),
+            f"https://{source.host}/{source.board}{job['externalPath']}",
+            location=job.get("locationsText"),
+        )
+
+
+def convert_icims(source: Source, page: dict):
+    for entry in page["jobs"]:
+        job = entry["data"]
+        categories = job.get("categories") or []
+        yield _row(
+            job["slug"],
+            job.get("title"),
+            (job.get("meta_data") or {}).get("canonical_url")
+            or f"https://{source.host}/jobs/{job['slug']}",
+            location=job.get("full_location"),
+            department=job.get("department") or (categories[0].get("name") if categories else ""),
+            posted_date=utc_date(job.get("posted_date")),
+        )
+
+
+def convert_phenom(source: Source, page: dict):
+    for job in page["refineSearch"]["data"]["jobs"]:
+        yield _row(
+            job["jobSeqNo"],
+            job.get("title"),
+            job.get("applyUrl") or f"https://{source.host}/us/en/job/{job.get('jobId')}",
+            location=job.get("cityStateCountry") or job.get("location"),
+            department=job.get("category"),
+            posted_date=utc_date(job.get("postedDate")),
+        )
+
+
+def ukg_location(job: dict) -> str:
+    """"City, ST" for the first location, or its description if it has no address."""
+    locations = job.get("Locations") or []
+    if not locations:
+        return ""
+    address = locations[0].get("Address") or {}
+    state = (address.get("State") or {}).get("Code")
+    place = ", ".join(part for part in (address.get("City"), state) if part)
+    return place or locations[0].get("LocalizedDescription") or ""
+
+
+def convert_ukg(source: Source, page: dict):
+    for job in page["opportunities"]:
+        yield _row(
+            job["Id"],
+            job.get("Title"),
+            f"https://{source.host}/{source.board}/OpportunityDetail?opportunityId={job['Id']}",
+            location=ukg_location(job),
+            department=job.get("JobCategoryName"),
+            posted_date=utc_date(job.get("PostedDate")),
+        )
+
+
 def convert_greenhouse(source: Source, page: dict):
     for job in page["jobs"]:
         departments = job.get("departments") or []
@@ -105,6 +182,10 @@ CONVERTERS = {
     "lever": convert_lever,
     "smartrecruiters": convert_smartrecruiters,
     "oracle": convert_oracle,
+    "workday": convert_workday,
+    "icims": convert_icims,
+    "phenom": convert_phenom,
+    "ukg": convert_ukg,
 }
 
 
