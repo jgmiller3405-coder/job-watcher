@@ -1,10 +1,10 @@
 {
-  "run_time": "2026-11-26T01:35:38Z",
+  "run_time": "2026-11-26T20:12:07Z",
   "first_run_date": "2026-11-25",
   "days_with_success": 2,
-  "open": 28669,
-  "new_today": 11,
-  "removed_today": 31,
+  "open": 28635,
+  "new_today": 203,
+  "removed_today": 230,
   "sources": [
     {
       "name": "jbhunt",
@@ -39,32 +39,32 @@
     {
       "name": "oracle",
       "ok": true,
-      "count": 2870
+      "count": 2880
     },
     {
       "name": "abbott",
       "ok": true,
-      "count": 2238
+      "count": 2242
     },
     {
       "name": "abbvie",
       "ok": true,
-      "count": 2014
+      "count": 2007
     },
     {
       "name": "conagra",
       "ok": true,
-      "count": 236
+      "count": 229
     },
     {
       "name": "united",
       "ok": true,
-      "count": 140
+      "count": 137
     },
     {
       "name": "exelon",
       "ok": true,
-      "count": 98
+      "count": 96
     },
     {
       "name": "ulta",
@@ -79,12 +79,12 @@
     {
       "name": "imc",
       "ok": true,
-      "count": 151
+      "count": 149
     },
     {
       "name": "jumptrading",
       "ok": true,
-      "count": 81
+      "count": 83
     },
     {
       "name": "williamblair",
@@ -94,7 +94,7 @@
     {
       "name": "texasinstruments",
       "ok": true,
-      "count": 916
+      "count": 922
     },
     {
       "name": "tenet",
@@ -104,52 +104,52 @@
     {
       "name": "pepsico",
       "ok": true,
-      "count": 2839
+      "count": 2816
     },
     {
       "name": "southwest",
       "ok": true,
-      "count": 20
+      "count": 19
     },
     {
       "name": "toyota",
       "ok": true,
-      "count": 139
+      "count": 135
     },
     {
       "name": "matchgroup",
       "ok": true,
-      "count": 72
+      "count": 73
     },
     {
       "name": "americanexpress",
       "ok": true,
-      "count": 404
+      "count": 395
     },
     {
       "name": "bny",
       "ok": true,
-      "count": 1231
+      "count": 1223
     },
     {
       "name": "goldmansachs",
       "ok": true,
-      "count": 952
+      "count": 966
     },
     {
       "name": "jpmorgan",
       "ok": true,
-      "count": 964
+      "count": 956
     },
     {
       "name": "nbcuniversal",
       "ok": true,
-      "count": 547
+      "count": 546
     },
     {
       "name": "datadog",
       "ok": true,
-      "count": 392
+      "count": 391
     },
     {
       "name": "janestreet",
@@ -159,7 +159,7 @@
     {
       "name": "mongodb",
       "ok": true,
-      "count": 423
+      "count": 421
     },
     {
       "name": "nytimes",
@@ -174,37 +174,37 @@
     {
       "name": "spotify",
       "ok": true,
-      "count": 96
+      "count": 97
     },
     {
       "name": "citizens",
       "ok": true,
-      "count": 474
+      "count": 472
     },
     {
       "name": "cummins",
       "ok": true,
-      "count": 1165
+      "count": 1154
     },
     {
       "name": "ford",
       "ok": true,
-      "count": 891
+      "count": 890
     },
     {
       "name": "honeywell",
       "ok": true,
-      "count": 1341
+      "count": 1357
     },
     {
       "name": "affirm",
       "ok": true,
-      "count": 213
+      "count": 216
     },
     {
       "name": "coinbase",
       "ok": true,
-      "count": 257
+      "count": 256
     },
     {
       "name": "point72",
@@ -214,17 +214,17 @@
     {
       "name": "robinhood",
       "ok": true,
-      "count": 161
+      "count": 162
     },
     {
       "name": "sofi",
       "ok": true,
-      "count": 57
+      "count": 58
     },
     {
       "name": "stripe",
       "ok": true,
-      "count": 772
+      "count": 768
     },
     {
       "name": "plaid",
@@ -244,7 +244,7 @@
     {
       "name": "experian",
       "ok": true,
-      "count": 416
+      "count": 420
     },
     {
       "name": "servicenow",
