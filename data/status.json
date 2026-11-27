@@ -1,10 +1,10 @@
 {
-  "run_time": "2026-11-26T20:12:07Z",
+  "run_time": "2026-11-27T01:57:14Z",
   "first_run_date": "2026-11-25",
-  "days_with_success": 2,
-  "open": 28635,
-  "new_today": 203,
-  "removed_today": 230,
+  "days_with_success": 3,
+  "open": 28585,
+  "new_today": 48,
+  "removed_today": 98,
   "sources": [
     {
       "name": "jbhunt",
@@ -39,22 +39,22 @@
     {
       "name": "oracle",
       "ok": true,
-      "count": 2880
+      "count": 2882
     },
     {
       "name": "abbott",
       "ok": true,
-      "count": 2242
+      "count": 2245
     },
     {
       "name": "abbvie",
       "ok": true,
-      "count": 2007
+      "count": 2008
     },
     {
       "name": "conagra",
       "ok": true,
-      "count": 229
+      "count": 228
     },
     {
       "name": "united",
@@ -104,12 +104,12 @@
     {
       "name": "pepsico",
       "ok": true,
-      "count": 2816
+      "count": 2805
     },
     {
       "name": "southwest",
       "ok": true,
-      "count": 19
+      "count": 20
     },
     {
       "name": "toyota",
@@ -124,7 +124,7 @@
     {
       "name": "americanexpress",
       "ok": true,
-      "count": 395
+      "count": 390
     },
     {
       "name": "bny",
@@ -134,7 +134,7 @@
     {
       "name": "goldmansachs",
       "ok": true,
-      "count": 966
+      "count": 964
     },
     {
       "name": "jpmorgan",
@@ -144,12 +144,12 @@
     {
       "name": "nbcuniversal",
       "ok": true,
-      "count": 546
+      "count": 545
     },
     {
       "name": "datadog",
       "ok": true,
-      "count": 391
+      "count": 390
     },
     {
       "name": "janestreet",
@@ -184,17 +184,17 @@
     {
       "name": "cummins",
       "ok": true,
-      "count": 1154
+      "count": 1149
     },
     {
       "name": "ford",
       "ok": true,
-      "count": 890
+      "count": 869
     },
     {
       "name": "honeywell",
       "ok": true,
-      "count": 1357
+      "count": 1350
     },
     {
       "name": "affirm",
@@ -214,7 +214,7 @@
     {
       "name": "robinhood",
       "ok": true,
-      "count": 162
+      "count": 161
     },
     {
       "name": "sofi",
@@ -224,7 +224,7 @@
     {
       "name": "stripe",
       "ok": true,
-      "count": 768
+      "count": 767
     },
     {
       "name": "plaid",
@@ -244,7 +244,7 @@
     {
       "name": "experian",
       "ok": true,
-      "count": 420
+      "count": 419
     },
     {
       "name": "servicenow",
